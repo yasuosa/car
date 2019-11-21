@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.rpy.sys.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="cn.rpy.sys.domain.Role">
+    <!--@mbg.generated-->
+    <id column="roleid" jdbcType="INTEGER" property="roleid" />
+    <result column="rolename" jdbcType="VARCHAR" property="rolename" />
+    <result column="roledesc" jdbcType="VARCHAR" property="roledesc" />
+    <result column="available" jdbcType="INTEGER" property="available" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    roleid, rolename, roledesc, available
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from sys_role
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="roleid" keyProperty="roleid" parameterType="cn.rpy.sys.domain.Role" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_role (rolename, roledesc, available
+      )
+    values (#{rolename,jdbcType=VARCHAR}, #{roledesc,jdbcType=VARCHAR}, #{available,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="roleid" keyProperty="roleid" parameterType="cn.rpy.sys.domain.Role" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rolename != null">
+        rolename,
+      </if>
+      <if test="roledesc != null">
+        roledesc,
+      </if>
+      <if test="available != null">
+        available,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rolename != null">
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="roledesc != null">
+        #{roledesc,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        #{available,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.rpy.sys.domain.Role">
+    <!--@mbg.generated-->
+    update sys_role
+    <set>
+      <if test="rolename != null">
+        rolename = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="roledesc != null">
+        roledesc = #{roledesc,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        available = #{available,jdbcType=INTEGER},
+      </if>
+    </set>
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.rpy.sys.domain.Role">
+    <!--@mbg.generated-->
+    update sys_role
+    set rolename = #{rolename,jdbcType=VARCHAR},
+      roledesc = #{roledesc,jdbcType=VARCHAR},
+      available = #{available,jdbcType=INTEGER}
+    where roleid = #{roleid,jdbcType=INTEGER}
+  </update>
+  <select id="queryAllRole" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List"/>
+     from sys_role
+    <where>
+        <if test="rolename != null and rolename != ''">
+          and rolename like  concat('%',#{rolename},'%')
+        </if>
+        <if test="roledesc != null and roledesc != ''">
+          and rolename like  concat('%',#{roledesc} ,'%')
+        </if>
+      <if test="available != null">
+          and available =#{available}
+      </if>
+    </where>
+  </select>
+
+  <!--根据角色id删 sys_role_menu里面的数据-->
+  <delete id="deleteRoleMenuByRid">
+      delete from sys_role_menu where rid=#{roleId}
+  </delete>
+  <!--根据角色id删 sys_role_user里面的数据-->
+  <delete id="deleteRoleUserByRid">
+      delete from sys_role_user where  rid=#{roleId}
+  </delete>
+
+
+  <insert id="insertRoleMenu">
+      insert into sys_role_menu(rid, mid) values(#{id} ,#{mid} )
+  </insert>
+    <delete id="deleteUserRoleUid">
+      delete from  sys_role_user
+      where uid=#{userId}
+    </delete>
+
+
+</mapper>
